@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="Retro Space Drift: Anti-Gravity — Um jogo arcade espacial com 3 fases épicas, nave Millennium Falcon e trilha sonora rock!">
+  <title>Retro Space Drift: Anti-Gravity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game-container"></div>
+  <div id="yt-player" style="position:absolute; top:-9999px; left:-9999px;"></div>
+
+  <script>
+    // ── YouTube Music Manager (Global) ──
+    window._ytReady = false;
+    window._ytQueue = null;
+    window._ytPlayer = null;
+
+    window.onYouTubeIframeAPIReady = () => {
+      console.log('[Music] YouTube API Ready');
+      window._ytReady = true;
+      if (window._ytQueue) {
+        window.playTrack(window._ytQueue);
+        window._ytQueue = null;
+      }
+    };
+
+    window.playTrack = (videoId) => {
+      console.log('[Music] playTrack:', videoId);
+      if (!window._ytReady) {
+        window._ytQueue = videoId;
+        return;
+      }
+      if (window._ytPlayer) {
+        window._ytPlayer.loadVideoById({ videoId: videoId, startSeconds: 0 });
+        window._ytPlayer.setVolume(40);
+        return;
+      }
+      window._ytPlayer = new YT.Player('yt-player', {
+        height: '0',
+        width: '0',
+        videoId: videoId,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          loop: 1,
+          playlist: videoId,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: (e) => {
+            e.target.setVolume(40);
+            e.target.playVideo();
+            console.log('[Music] Player ready, playing');
+          },
+          onError: (e) => console.error('[Music] Error:', e.data)
+        }
+      });
+    };
+
+    window.stopMusic = () => {
+      if (window._ytPlayer && window._ytPlayer.pauseVideo) {
+        window._ytPlayer.pauseVideo();
+      }
+    };
+  </script>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
