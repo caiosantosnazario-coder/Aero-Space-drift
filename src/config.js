@@ -21,17 +21,40 @@ export const CONFIG = {
     TILT_LERP: 0.08,
   },
 
+  WEAPON: {
+    FIRE_RATE: 180,       // ms between shots
+    BULLET_SPEED: 600,
+    BULLET_DAMAGE: 1,
+    BULLET_SIZE: 4,
+    POOL_SIZE: 30,
+  },
+
   ASTEROID: {
     SIZES: [
-      { key: 'asteroid_s', radius: 12, points: 7 },
-      { key: 'asteroid_m', radius: 22, points: 9 },
-      { key: 'asteroid_l', radius: 34, points: 11 },
+      { key: 'asteroid_s', radius: 12, points: 7, hp: 1 },
+      { key: 'asteroid_m', radius: 22, points: 9, hp: 2 },
+      { key: 'asteroid_l', radius: 34, points: 11, hp: 3 },
     ],
     BASE_SPEED: 160,
     MAX_SPEED: 320,
     SPAWN_INTERVAL: 750,
     DIAGONAL_CHANCE: 0.2,
     POOL_SIZE: 30,
+    DESTROY_SCORE: 100,
+    FRAGMENT_COUNT: 3,
+  },
+
+  ENEMY: {
+    SIZES: [
+      { key: 'enemy_fighter', radius: 18, hp: 2, fireRate: 1500 },
+      { key: 'enemy_heavy', radius: 26, hp: 4, fireRate: 2200 },
+    ],
+    BASE_SPEED: 100,
+    MAX_SPEED: 200,
+    SPAWN_INTERVAL: 4000,
+    BULLET_SPEED: 300,
+    DESTROY_SCORE: 250,
+    FIRST_SPAWN_TIME: 15,
   },
 
   PLANET: {
@@ -109,6 +132,7 @@ export const CONFIG = {
         THRUSTER:  0x4488ff,
         AST_BODY:  0x333355,
         AST_EDGE:  0x6666aa,
+        BULLET:    0x00ffff,
       },
     },
 
@@ -138,6 +162,7 @@ export const CONFIG = {
         THRUSTER:  0xff4400,
         AST_BODY:  0xffaa00,
         AST_EDGE:  0xffdd44,
+        BULLET:    0xff6600,
       },
     },
 
@@ -167,6 +192,7 @@ export const CONFIG = {
         THRUSTER:  0x22ff66,
         AST_BODY:  0x115533,
         AST_EDGE:  0x00ff44,
+        BULLET:    0x00ff44,
       },
     },
   },
