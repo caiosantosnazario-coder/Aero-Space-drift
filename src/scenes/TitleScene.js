@@ -2,6 +2,7 @@
  * TitleScene — Animated synthwave title screen with phase preview.
  */
 import { CONFIG } from '../config.js';
+import { SoundEffects } from '../systems/SoundEffects.js';
 
 export class TitleScene extends Phaser.Scene {
   constructor() { super('TitleScene'); }
@@ -112,21 +113,13 @@ export class TitleScene extends Phaser.Scene {
       fontSize: '7px', color: '#666688',
     }).setOrigin(0.5);
 
-    this.add.text(W / 2, H * 0.93, 'v2.0 — MILLENNIUM FALCON EDITION', {
-      fontFamily: '"Press Start 2P", monospace',
-      fontSize: '6px', color: '#333355',
-    }).setOrigin(0.5);
-
     // ── Input ──
     this.input.keyboard.once('keydown-SPACE', () => this._start());
     this.input.once('pointerdown', () => this._start());
   }
 
   _start() {
-    // Start Phase 1 music
-    const phase1 = CONFIG.PHASES[1];
-    if (window.playTrack) window.playTrack(phase1.youtubeId);
-
+    SoundEffects.init();
     this.cameras.main.fadeOut(400, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => {
       this.scene.start('GameScene', { phase: 1 });

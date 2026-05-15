@@ -8,6 +8,7 @@ import { ParallaxBackground } from '../systems/ParallaxBackground.js';
 import { SpawnSystem } from '../systems/SpawnSystem.js';
 import { DifficultyManager } from '../systems/DifficultyManager.js';
 import { AntiGravitySystem } from '../systems/AntiGravitySystem.js';
+import { SoundEffects } from '../systems/SoundEffects.js';
 import { HUD } from '../ui/HUD.js';
 
 export class GameScene extends Phaser.Scene {
@@ -268,9 +269,6 @@ export class GameScene extends Phaser.Scene {
     this.currentPhase = this.nextPhase;
     const phaseData = CONFIG.PHASES[this.currentPhase];
 
-    // ── Change music ──
-    if (window.playTrack) window.playTrack(phaseData.youtubeId);
-
     // ── Update background ──
     this.cameras.main.setBackgroundColor(phaseData.bgDark);
     this.parallax.setPhase(this.currentPhase);
@@ -374,6 +372,7 @@ export class GameScene extends Phaser.Scene {
         this.score += CONFIG.SCORE.NEAR_MISS_BONUS;
         this.antiGravity.addNearMissCharge();
         this.hud.showNearMiss(this.ship.x, this.ship.y);
+        SoundEffects.playNearMiss();
         this.nearMissEmitter.emitParticleAt(
           (ast.x + this.ship.x) / 2,
           (ast.y + this.ship.y) / 2
@@ -393,6 +392,7 @@ export class GameScene extends Phaser.Scene {
 
   _gameOver() {
     this.isGameOver = true;
+    SoundEffects.playCrash();
     this.explosionEmitter.emitParticleAt(this.ship.x, this.ship.y);
     this.ship.sprite.setVisible(false);
     this.ship.sprite.body.enable = false;
